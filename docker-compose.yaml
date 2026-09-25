@@ -1,0 +1,27 @@
+services:
+  amidesk-api-server:
+    container_name: amidesk-api-server
+    build: .
+    image: amidesk-api-server:2.1
+    environment:
+      - "TZ=Europe/Warsaw"
+    volumes:
+      - ./data:/app/data
+      - /opt/rustdesk/data/id_ed25519.pub:/run/rustdesk/id_ed25519.pub:ro
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.rustdesk-api-http.rule=Host(`rust.amitronic.pl`)"
+      - "traefik.http.routers.rustdesk-api-http.entrypoints=web"
+      - "traefik.http.routers.rustdesk-api-http.middlewares=redirect-to-https@docker"
+      - "traefik.http.routers.rustdesk-api.rule=Host(`rust.amitronic.pl`)"
+      - "traefik.http.routers.rustdesk-api.entrypoints=websecure"
+      - "traefik.http.routers.rustdesk-api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.rustdesk-api.loadbalancer.server.port=12345"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true

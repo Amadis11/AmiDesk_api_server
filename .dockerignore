@@ -1,0 +1,10 @@
+.git
+.gitignore
+**/node_modules
+**/dist
+**/.pnpm-store
+**/.turbo
+**/coverage
+**/*.log
+backend/server.db
+backend/rustdesk-server

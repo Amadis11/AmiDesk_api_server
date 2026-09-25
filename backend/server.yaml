@@ -1,0 +1,40 @@
+signKey: "sercrethatmaycontainch@r$32chars" # this is the token signing key. change this before start server
+debugMode: true # debug mode
+db:
+  driver: "sqlite"
+  dsn: "./server.db"
+  timeZone: "Europe/Warsaw" # setting the time zone fixes the database creation time problem
+  showSql: false
+
+  # driver: "mysql"
+  # dsn: "root:123@tcp(localhost:3306)/test?charset=utf8mb4"
+httpConfig:
+  printRequestLog: true
+  staticdir: "/app/dist"
+  port: ":12345" # api server port
+
+smtpConfig:
+  host: "127.0.0.1"
+  port: 1025
+  username: "test"
+  password: "test"
+  encryption: "none" # none ssl/tls starttls
+  from: "test@localhost.com"
+
+jobsConfig:
+  deviceCheckJob:
+    duration: 30
+
+rustdeskBootstrap:
+  enabled: true
+  idServer: "rust.amitronic.pl"
+  relayServer: "rust.amitronic.pl"
+  apiServer: "https://rust.amitronic.pl"
+  keyFile: "/run/rustdesk/id_ed25519.pub"
+  pushToAnonymous: true
+  pushToAuthenticated: true
+
+security:
+  requireAdminTOTP: false # enable after every administrator has enrolled TOTP
+  maxLoginFailures: 5
+  loginLockoutMinutes: 15
