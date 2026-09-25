@@ -72,10 +72,10 @@ E2E_ADMIN_USER=admin E2E_ADMIN_PASS=admin123456 pnpm test:e2e
 
 ## Deploying with Docker (recommended)
 
-1. pull image
+1. build the image from source
 
 ```shell
-docker pull ghcr.io/amadis11/amidesk-api-server:latest
+docker build -t amidesk-api-server:latest .
 ```
 
 2. create config
@@ -120,7 +120,7 @@ docker run \
   -e TZ=Europe/Warsaw \ #must match the 'timeZone' setting in server.yaml
   -p 8080:8080 \
   -v /your/path:/app/data \
-  ghcr.io/amadis11/amidesk-api-server:latest
+  amidesk-api-server:latest
 ```
 
 4. add your admin account (this step can be ignored if an environment variable is set to initialize the administrator account password, but creating the administrator account this way is still recommended instead of initializing it with an environment variable)
@@ -139,7 +139,8 @@ docker exec amidesk-api-server amidesk-api-server user add admin yourpassword --
 services:
   amidesk-api-server:
     container_name: amidesk-api-server
-    image: ghcr.io/amadis11/amidesk-api-server:latest
+    build: .
+    image: amidesk-api-server:latest
     environment:
       - "ADMIN_USER=youruser"
       - "ADMIN_PASS=yourpassword"
